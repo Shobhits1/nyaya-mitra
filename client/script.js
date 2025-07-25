@@ -11,7 +11,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   // --- CONFIGURATION ---
   // The base URL for your backend API.
-  // When you deploy, you will change 'http://localhost:5000'
+  // When you deploy, you will change 'http://localhost:5000'hiii
   // to your live backend server URL from Render.
   const API_URL = "https://nyaya-mitra.onrender.com";
 
