@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // The base URL for your backend API.
   // When you deploy, you will change 'http://localhost:5000'
   // to your live backend server URL from Render.
-  const API_URL = "http://localhost:5000/api";
+  const API_URL = "https://nyaya-mitra.onrender.com";
 
   // --- PAGE DETECTION ---
   const caseForm = document.getElementById("case-form");
