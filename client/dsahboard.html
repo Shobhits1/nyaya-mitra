@@ -1,0 +1,127 @@
+<!-- 
+  FILE: client/dashboard.html
+  DESCRIPTION: This page displays a dashboard of all cases that have been
+  submitted. Users can see the status of each case and click a button
+  to view the full details and the AI-generated judgment in a modal popup.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Nyaya Mitra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 font-sans">
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm">
+      <nav
+        class="container mx-auto px-6 py-4 flex justify-between items-center"
+      >
+        <div class="text-2xl font-bold text-gray-800">⚖️ Nyaya Mitra</div>
+        <div>
+          <a href="index.html" class="text-gray-700 hover:text-blue-600 mr-4"
+            >Submit Case</a
+          >
+          <a
+            href="dashboard.html"
+            class="text-gray-700 font-semibold hover:text-blue-600"
+            >Dashboard</a
+          >
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-12">
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">Case Dashboard</h1>
+
+      <!-- Table to display cases -->
+      <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <table class="min-w-full leading-normal">
+          <thead>
+            <tr>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                Case Title
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                Parties Involved
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                Submitted On
+              </th>
+              <th
+                class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
+              >
+                Status
+              </th>
+              <th class="px-5 py-3 border-b-2 border-gray-200 bg-gray-100"></th>
+            </tr>
+          </thead>
+          <tbody id="cases-table-body">
+            <!-- Case rows will be dynamically inserted here by JavaScript -->
+            <!-- Loading indicator -->
+            <tr>
+              <td colspan="5" class="text-center p-8 text-gray-500">
+                Loading cases...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+    <!-- Modal for displaying case details and judgment -->
+    <div
+      id="case-modal"
+      class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden z-50"
+    >
+      <div
+        class="bg-white rounded-lg shadow-xl w-full max-w-3xl max-h-[90vh] flex flex-col"
+      >
+        <!-- Modal Header -->
+        <div class="p-6 border-b border-gray-200">
+          <h2 id="modal-title" class="text-2xl font-bold text-gray-800">
+            Case Details
+          </h2>
+        </div>
+        <!-- Modal Body -->
+        <div id="modal-body" class="p-6 overflow-y-auto">
+          <!-- Case details will be injected here -->
+        </div>
+        <!-- Modal Footer -->
+        <div
+          class="p-6 bg-gray-50 border-t border-gray-200 flex justify-end space-x-4"
+        >
+          <button
+            id="modal-generate-button"
+            class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          >
+            Generate AI Judgment
+          </button>
+          <button
+            id="modal-close-button"
+            class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-lg transition duration-300"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

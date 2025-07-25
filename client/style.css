@@ -1,0 +1,38 @@
+/* <!-- 
+  FILE: client/style.css
+  DESCRIPTION: This file contains custom CSS to enhance the look and feel
+  of the website beyond the default Tailwind CSS classes.
+--> */
+body {
+  font-family: "Inter", sans-serif;
+}
+
+/* Custom style for the judgment text to format it nicely */
+.judgment-text {
+  white-space: pre-wrap; /* Preserves whitespace and line breaks */
+  font-family: "Courier New", Courier, monospace;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 16px;
+  color: #343a40;
+  line-height: 1.6;
+}
+
+/* Custom animation for the loading spinner on buttons */
+.spinner {
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  width: 16px;
+  height: 16px;
+  animation: spin 1s ease-in-out infinite;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
