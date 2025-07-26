@@ -26,13 +26,27 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // --- MIDDLEWARE ---
 
-// --- THIS IS THE DEBUGGING FIX ---
-// We are temporarily allowing ALL origins to connect.
-// This helps us see if the problem is CORS or something else.
-app.use(cors());
-// ---------------------------------
+// CORS configuration - explicitly allow your Vercel frontend
+const corsOptions = {
+  origin: ['https://nyaya-mitra-c2ov.vercel.app', 'http://localhost:3000', 'http://localhost:5000'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
+
+// Add CORS preflight handling
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
+
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - Origin: ${req.headers.origin}`);
+  next();
+});
 
 // --- DATABASE CONNECTION ---
 mongoose
@@ -41,6 +55,19 @@ mongoose
   .catch((error) => console.error("Error connecting to MongoDB:", error));
 
 // --- API ROUTES ---
+
+/**
+ * @route   GET /api/test
+ * @desc    Test endpoint to verify CORS is working
+ * @access  Public
+ */
+app.get("/api/test", (req, res) => {
+  res.status(200).json({ 
+    message: "API is working!", 
+    timestamp: new Date().toISOString(),
+    origin: req.headers.origin 
+  });
+});
 
 /**
  * @route   POST /api/cases
