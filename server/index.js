@@ -15,7 +15,7 @@ require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Import the Case model
-const Case = require("./models/case"); // Ensure this matches your file name 'Case.js'
+const Case = require("./models/case");
 
 // --- INITIALIZATION ---
 const app = express();
@@ -26,27 +26,13 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // --- MIDDLEWARE ---
 
-// CORS configuration - explicitly allow your Vercel frontend
-const corsOptions = {
-  origin: ['https://nyaya-mitra-c2ov.vercel.app', 'http://localhost:3000', 'http://localhost:5000'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true,
-  optionsSuccessStatus: 200
-};
-
-app.use(cors(corsOptions));
-
-// Add CORS preflight handling
-app.options('*', cors(corsOptions));
+// Simple CORS configuration - allow all origins for now
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
 app.use(express.json());
-
-// Debug middleware to log all requests
-app.use((req, res, next) => {
-  console.log(`${new Date().toISOString()} - ${req.method} ${req.path} - Origin: ${req.headers.origin}`);
-  next();
-});
 
 // --- DATABASE CONNECTION ---
 mongoose
