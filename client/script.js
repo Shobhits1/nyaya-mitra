@@ -1,19 +1,10 @@
 // <!--
-//   FILE: client/script.js
-//   DESCRIPTION: This is the main JavaScript file for the frontend.
-//   It handles all client-side logic, including:
-//   - Detecting which page is currently active (home or dashboard).
-//   - Submitting the new case form to the backend API.
-//   - Fetching all cases for the dashboard.
-//   - Handling modal popups for viewing details and generating judgments.
-//   - Communicating with all backend API endpoints.
+//   FILE: client/script.js (CORRECTED)
 // -->
 document.addEventListener("DOMContentLoaded", () => {
   // --- CONFIGURATION ---
-  // The base URL for your backend API.
-  // When you deploy, you will change 'http://localhost:5000'hiii
-  // to your live backend server URL from Render.
-  const API_URL = "https://nyaya-mitra.onrender.com";
+  // THIS IS THE CRITICAL FIX. This URL must point to your live Render backend.
+  const API_URL = "https://nyaya-mitra-api.onrender.com/api";
 
   // --- PAGE DETECTION ---
   const caseForm = document.getElementById("case-form");
@@ -27,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeDashboardPage();
   }
 
-  // --- INDEX PAGE LOGIC ---
+  // --- INDEX PAGE LOGIC ----
   function initializeFormPage() {
     const submitButton = document.getElementById("submit-button");
     const formMessage = document.getElementById("form-message");
@@ -135,7 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const openModal = async (caseId) => {
-      // Fetch the latest data for just this case to ensure it's up to date
       try {
         const response = await fetch(`${API_URL}/cases`);
         if (!response.ok) throw new Error("Could not fetch case details.");
@@ -204,7 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
         judgmentContainer.innerHTML = `<div class="judgment-text">${updatedCase.judgment}</div>`;
         e.target.classList.add("hidden");
 
-        // Refresh the table in the background to show the new status
         loadCases();
       } catch (error) {
         const judgmentContainer = document.getElementById("judgment-container");
@@ -215,7 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Initial load of cases when the dashboard page is opened
     loadCases();
   }
 });
