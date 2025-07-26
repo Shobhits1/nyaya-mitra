@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       try {
         const response = await fetch(
-          `${API_URL}/cases/${caseId}/generate-judgment`,
+          `${API_URL}/api/cases/${caseId}/generate-judgment`,
           {
             method: "POST",
           }
