@@ -27,10 +27,12 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 // --- MIDDLEWARE ---
 
 // Simple CORS configuration - allow all origins for now
-app.use(cors({
-  origin: true,
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
@@ -48,10 +50,10 @@ mongoose
  * @access  Public
  */
 app.get("/api/test", (req, res) => {
-  res.status(200).json({ 
-    message: "API is working!", 
+  res.status(200).json({
+    message: "API is working!",
     timestamp: new Date().toISOString(),
-    origin: req.headers.origin 
+    origin: req.headers.origin,
   });
 });
 
