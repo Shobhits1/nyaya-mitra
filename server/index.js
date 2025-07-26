@@ -1,8 +1,8 @@
 /*
  * -------------------------------------------------------------------------
- * FILE: server/index.js (FINAL, CORRECTED VERSION)
- * DESCRIPTION: This version includes the critical CORS configuration
- * to allow the deployed frontend on Vercel to communicate with this server.
+ * FILE: server/index.js (FINAL DEBUGGING VERSION)
+ * DESCRIPTION: This version opens up CORS completely to diagnose the
+ * connection issue. This is for debugging only.
  * -------------------------------------------------------------------------
  */
 
@@ -15,7 +15,7 @@ require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Import the Case model
-const Case = require("./models/case"); // Ensure this matches your file name 'Case.js'
+const Case = require("./models/Case"); // Ensure this matches your file name 'Case.js'
 
 // --- INITIALIZATION ---
 const app = express();
@@ -26,15 +26,10 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // --- MIDDLEWARE ---
 
-// --- THIS IS THE CRITICAL FIX ---
-// We are explicitly telling the server to trust your Vercel website.
-const corsOptions = {
-  origin: "https://nyaya-mitra-c2ov.vercel.app",
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true,
-  optionsSuccessStatus: 200, // For legacy browser support
-};
-app.use(cors(corsOptions));
+// --- THIS IS THE DEBUGGING FIX ---
+// We are temporarily allowing ALL origins to connect.
+// This helps us see if the problem is CORS or something else.
+app.use(cors());
 // ---------------------------------
 
 app.use(express.json());
