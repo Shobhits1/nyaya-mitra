@@ -4,7 +4,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   // --- CONFIGURATION ---
   // THIS IS THE CRITICAL FIX. This URL must point to your live Render backend.
-  const API_URL = "https://nyaya-mitra-api.onrender.com/api";
+  const API_URL = "https://nyaya-mitra.onrender.com";
 
   // --- PAGE DETECTION ---
   const caseForm = document.getElementById("case-form");
