@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         casesTableBody.innerHTML =
           '<tr><td colspan="5" class="text-center p-8 text-gray-500">Loading cases...</td></tr>';
-        const response = await fetch(`${API_URL}/cases`);
+        const response = await fetch(`${API_URL}/api/cases`);
         if (!response.ok) throw new Error("Failed to fetch cases.");
 
         const cases = await response.json();
