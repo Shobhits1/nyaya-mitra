@@ -15,7 +15,7 @@ require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Import the Case model
-const Case = require("./models/Case"); // Ensure this matches your file name 'Case.js'
+const Case = require("./models/case"); // Ensure this matches your file name 'Case.js'
 
 // --- INITIALIZATION ---
 const app = express();
