@@ -30,6 +30,8 @@ const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 // We are explicitly telling the server to trust your Vercel website.
 const corsOptions = {
   origin: "https://nyaya-mitra-c2ov.vercel.app",
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
   optionsSuccessStatus: 200, // For legacy browser support
 };
 app.use(cors(corsOptions));
