@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const openModal = async (caseId) => {
       try {
-        const response = await fetch(`${API_URL}/cases`);
+        const response = await fetch(`${API_URL}/api/cases`);
         if (!response.ok) throw new Error("Could not fetch case details.");
         const cases = await response.json();
         const caseItem = cases.find((c) => c._id === caseId);
