@@ -1,36 +1,41 @@
-// *
-//  * -------------------------------------------------------------------------
-//  * FILE: server/index.js
-//  * DESCRIPTION: This is the main entry point for the backend server.
-//  * It sets up an Express application, connects to the MongoDB database,
-//  * configures middleware, and defines the API routes for handling
-//  * case submissions and AI judgment generation.
-//  * -------------------------------------------------------------------------
-//  */
+/*
+ * -------------------------------------------------------------------------
+ * FILE: server/index.js (FINAL, CORRECTED VERSION)
+ * DESCRIPTION: This version includes the critical CORS configuration
+ * to allow the deployed frontend on Vercel to communicate with this server.
+ * -------------------------------------------------------------------------
+ */
 
 // Import necessary packages
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-require("dotenv").config(); // Loads environment variables from a .env file into process.env
+require("dotenv").config();
 
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-// Import the Case model we defined
-const Case = require("./models/case");
+// Import the Case model
+const Case = require("./models/Case"); // Ensure this matches your file name 'Case.js'
 
 // --- INITIALIZATION ---
-const app = express(); // Create an instance of an Express application
-const PORT = process.env.PORT || 5000; // Use the port from .env, or 5000 as a default
+const app = express();
+const PORT = process.env.PORT || 5000;
 
-// Initialize the Google Generative AI client
-// Make sure your GEMINI_API_KEY is set in your .env file
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 // --- MIDDLEWARE ---
-app.use(cors()); // Enable Cross-Origin Resource Sharing to allow frontend to communicate with this server
-app.use(express.json()); // Enable the express app to parse JSON formatted request bodies
+
+// --- THIS IS THE CRITICAL FIX ---
+// We are explicitly telling the server to trust your Vercel website.
+const corsOptions = {
+  origin: "https://nyaya-mitra-c2ov.vercel.app",
+  optionsSuccessStatus: 200, // For legacy browser support
+};
+app.use(cors(corsOptions));
+// ---------------------------------
+
+app.use(express.json());
 
 // --- DATABASE CONNECTION ---
 mongoose
@@ -47,17 +52,12 @@ mongoose
  */
 app.post("/api/cases", async (req, res) => {
   try {
-    // Create a new Case document using the data from the request body
     const newCase = new Case({
       caseTitle: req.body.caseTitle,
       caseDescription: req.body.caseDescription,
       partiesInvolved: req.body.partiesInvolved,
     });
-
-    // Save the new case to the database
     const savedCase = await newCase.save();
-
-    // Send a success response back to the client with the saved data
     res.status(201).json(savedCase);
     console.log("New case submitted:", savedCase.caseTitle);
   } catch (error) {
@@ -75,7 +75,6 @@ app.post("/api/cases", async (req, res) => {
  */
 app.get("/api/cases", async (req, res) => {
   try {
-    // Find all cases in the database and sort them by submission date (newest first)
     const cases = await Case.find().sort({ submittedAt: -1 });
     res.status(200).json(cases);
   } catch (error) {
@@ -94,15 +93,12 @@ app.get("/api/cases", async (req, res) => {
 app.post("/api/cases/:id/generate-judgment", async (req, res) => {
   try {
     const caseId = req.params.id;
-    // Find the case in the database by its unique ID
     const caseToJudge = await Case.findById(caseId);
 
     if (!caseToJudge) {
       return res.status(404).json({ message: "Case not found." });
     }
 
-    // --- PROMPT ENGINEERING ---
-    // This is where we create the detailed instructions for the AI model.
     const caseDetails = `Case Title: ${caseToJudge.caseTitle}, Parties: ${caseToJudge.partiesInvolved}, Description: ${caseToJudge.caseDescription}`;
     const prompt = `
       As an AI legal analyst named "Nyaya Mitra," provide a preliminary, non-binding judgment for the following case based on the laws of India. Your analysis must be structured into four distinct sections:
@@ -119,12 +115,10 @@ app.post("/api/cases/:id/generate-judgment", async (req, res) => {
 
     console.log(`Generating judgment for case: ${caseToJudge.caseTitle}`);
 
-    // Send the prompt to the Gemini API
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const aiJudgment = response.text();
 
-    // Update the case in the database with the new judgment and status
     caseToJudge.judgment = aiJudgment;
     caseToJudge.status = "Analysis Complete";
     const updatedCase = await caseToJudge.save();
@@ -132,11 +126,9 @@ app.post("/api/cases/:id/generate-judgment", async (req, res) => {
     console.log(
       `Judgment generated successfully for case: ${updatedCase.caseTitle}`
     );
-    // Send the updated case data back to the client
     res.status(200).json(updatedCase);
   } catch (error) {
     console.error("Error generating judgment:", error);
-    // If there's an error, update the case status to 'Error'
     await Case.findByIdAndUpdate(req.params.id, { status: "Error" });
     res
       .status(500)
