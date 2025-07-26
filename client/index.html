@@ -1,8 +1,6 @@
 <!-- 
-  FILE: client/index.html
-  DESCRIPTION: This is the main landing page of the Nyaya Mitra website.
-  It contains the header, a brief introduction, and a form for users
-  to submit the details of a new case.
+  FILE: client/index.html (Final Version)
+  DESCRIPTION: Links updated for clean Vercel routing.
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -10,11 +8,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nyaya Mitra - AI E-Court</title>
-    <!-- Link to Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Link to our custom stylesheet -->
     <link rel="stylesheet" href="style.css" />
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -23,35 +18,32 @@
     />
   </head>
   <body class="bg-gray-50 font-sans">
-    <!-- Header Section -->
     <header class="bg-white shadow-sm">
       <nav
         class="container mx-auto px-6 py-4 flex justify-between items-center"
       >
         <div class="text-2xl font-bold text-gray-800">⚖️ Nyaya Mitra</div>
         <div>
+          <!-- Use simple, clean links -->
           <a
-            href="index.html"
+            href="/"
             class="text-gray-700 font-semibold hover:text-blue-600 mr-4"
             >Submit Case</a
           >
-          <a href="dashboard.html" class="text-gray-700 hover:text-blue-600"
+          <a href="/dashboard" class="text-gray-700 hover:text-blue-600"
             >Dashboard</a
           >
         </div>
       </nav>
     </header>
-
-    <!-- Main Content -->
     <main class="container mx-auto px-6 py-12">
+      <!-- ... (rest of the form is the same) ... -->
       <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Submit a New Case</h1>
         <p class="text-gray-600 mb-6">
           Fill in the details below to submit your case for an AI-powered legal
           analysis. All fields are required.
         </p>
-
-        <!-- Case Submission Form -->
         <form id="case-form">
           <div class="mb-4">
             <label
@@ -108,12 +100,9 @@
             </button>
           </div>
         </form>
-        <!-- Message area for success or error feedback -->
         <div id="form-message" class="mt-4 text-center"></div>
       </div>
     </main>
-
-    <!-- Link to our JavaScript file -->
     <script src="script.js"></script>
   </body>
 </html>
